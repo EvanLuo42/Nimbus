@@ -1,7 +1,11 @@
 #include "Nimbus.h"
 
-#include <print>
+#include "Include/MacOSPlatform.h"
 
 void Nimbus::CreateEngine() {
-    std::print("Nimbus");
+    MacOSPlatform::Program::createWindow(800, 600, swift::String("Nimbus Engine"));
+    while (!MacOSPlatform::Program::shouldCloseFlag())
+    {
+        MacOSPlatform::Program::pollEvents();
+    }
 }
