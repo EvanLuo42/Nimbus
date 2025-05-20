@@ -1,14 +1,21 @@
 #include "VulkanContext.h"
 
+#include "Core/Utils/LogUtils.h"
+
+#include "Core/Utils/VectorUtils.h"
 #include <iostream>
+#include <spdlog/spdlog.h>
 
 VULKAN_HPP_DEFAULT_DISPATCH_LOADER_DYNAMIC_STORAGE
 
 VulkanContext::VulkanContext(const NativeWindowHandle &nativeWindowHandle, const std::string &appName)
 {
+    Logger = GetLogger("RHI");
+
     Loader = std::make_unique<vk::detail::DynamicLoader>();
     VULKAN_HPP_DEFAULT_DISPATCHER.init(Loader->getProcAddress<PFN_vkGetInstanceProcAddr>("vkGetInstanceProcAddr"));
     Context.emplace();
+
     vk::ApplicationInfo appInfo{appName.c_str(), 1, "Nimbus Engine", 1, VK_API_VERSION_1_3};
     std::vector extensions = {VK_KHR_SURFACE_EXTENSION_NAME,
 #ifdef __APPLE__
@@ -16,6 +23,8 @@ VulkanContext::VulkanContext(const NativeWindowHandle &nativeWindowHandle, const
                               VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME
 #endif
     };
+
+    NB_INFO("Creating app {} Vulkan instance using extensions: {}", appName, JoinVector(extensions));
     vk::InstanceCreateInfo createInfo{vk::InstanceCreateFlagBits::eEnumeratePortabilityKHR,
                                       &appInfo,
                                       0,

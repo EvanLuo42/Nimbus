@@ -8,5 +8,8 @@
   }, {
     "name" : "vcpkg-cmake",
     "version>=" : "2024-04-23"
+  }, {
+    "name" : "spdlog",
+    "version>=" : "1.15.2"
   } ]
 }

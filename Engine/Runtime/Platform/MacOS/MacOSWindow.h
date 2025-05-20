@@ -1,13 +1,17 @@
 #pragma once
+#include "Core/Utils/LogUtils.h"
 #include "Include/MacOSPlatform.h"
 #include "Platform/IWindow.h"
+#include "spdlog/spdlog.h"
 
 class MacOsWindow final : public IWindow
 {
   public:
     MacOsWindow(const int width, const int height, const char *title)
     {
+        Logger = GetLogger("Platform::macOS");
         Window = MacOSPlatform::Program::createWindow(width, height, title);
+        NB_DEBUG("Created a macOS window: Width: {}, Height: {}, Title: {}", width, height, title);
     }
     void PollEvents() override;
     [[nodiscard]] bool ShouldClose() const override;
@@ -16,4 +20,5 @@ class MacOsWindow final : public IWindow
 
   private:
     void* Window;
+    std::shared_ptr<spdlog::logger> Logger;
 };

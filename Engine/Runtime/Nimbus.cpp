@@ -12,15 +12,15 @@
 
 void Nimbus::CreateEngine()
 {
+    spdlog::set_level(spdlog::level::debug);
+
     std::unique_ptr<IWindow> window = std::make_unique<MacOsWindow>(800, 600, "Nimbus Engine");
     std::unique_ptr<IInput> input = std::make_unique<MacOsInput>();
 
     PlatformContext platformContext{std::move(window), std::move(input)};
 
-    // 2. 初始化 Vulkan
     VulkanContext vk{platformContext.GetWindow()->GetNativeHandle(), "Nimbus Engine"};
 
-    // 3. 创建 Swapchain（简化）
     vk::raii::SurfaceKHR& surface = vk.GetSurface();
     vk::raii::Device& device = vk.GetDevice();
     vk::raii::PhysicalDevice& physical = vk.GetPhysicalDevice();
@@ -82,7 +82,7 @@ void Nimbus::CreateEngine()
     auto& cmd = commandBuffers[0];
 
     cmd.begin({vk::CommandBufferUsageFlagBits::eOneTimeSubmit});
-    vk::ClearValue clearColor = vk::ClearColorValue(std::array<float,4>{0.1f, 0.2f, 0.3f, 1.0f});
+    vk::ClearValue clearColor = vk::ClearColorValue(std::array{0.1f, 0.2f, 0.3f, 1.0f});
     vk::RenderPassBeginInfo rpbInfo(*renderPass, *framebuffers[0], {{0, 0}, extent}, 1, &clearColor);
     cmd.beginRenderPass(rpbInfo, vk::SubpassContents::eInline);
     cmd.endRenderPass();

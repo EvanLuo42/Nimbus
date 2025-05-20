@@ -69,6 +69,9 @@ add_library(NimbusRuntime SHARED Nimbus.cpp
         Platform/PlatformContext.cpp
         RHI/VulkanContext.cpp
         RHI/VulkanContext.h
+        Core/Utils/LogUtils.h
+        Core/Utils/VectorUtils.h
+        Core/Utils/LogUtils.cpp
 )
 
 target_link_libraries(NimbusRuntime PRIVATE MacOSPlatform)
@@ -77,3 +80,6 @@ target_include_directories(NimbusRuntime PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 find_package(Vulkan REQUIRED)
 target_link_libraries(NimbusRuntime PRIVATE Vulkan::Vulkan)
+
+find_package(spdlog CONFIG REQUIRED)
+target_link_libraries(NimbusRuntime PRIVATE spdlog::spdlog)
