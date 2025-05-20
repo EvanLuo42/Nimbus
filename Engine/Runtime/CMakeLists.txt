@@ -49,6 +49,9 @@ add_library(NimbusRuntime SHARED Nimbus.cpp
         Event/Event.h
         Event/ResizeEvent.h
         Event/KeyEvent.h
+        Platform/MacOS/MacOSInput.cpp
+        Platform/MacOS/MacOSInput.h
+        Event/MouseEvent.h
 )
 
 target_link_libraries(NimbusRuntime PRIVATE MacOSPlatform)

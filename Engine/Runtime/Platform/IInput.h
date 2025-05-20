@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include <tuple>
 
 enum class KeyCode : uint16_t {
     Zero = 29,
@@ -273,10 +274,17 @@ inline const char* ToString(const KeyState state) {
     }
 }
 
+enum class MouseButton : uint16_t
+{
+    Left = 0,
+    Right = 1,
+    Middle = 2
+};
+
 class IInput {
 public:
     virtual ~IInput() = default;
     [[nodiscard]] virtual bool IsKeyPressed(KeyCode key) const = 0;
-    [[nodiscard]] virtual bool IsMouseButtonPressed(int button) const = 0;
-    virtual void GetMousePosition(double& x, double& y) const = 0;
+    [[nodiscard]] virtual bool IsMouseButtonPressed(MouseButton button) const = 0;
+    [[nodiscard]] virtual std::tuple<double, double> GetMousePosition() const = 0;
 };

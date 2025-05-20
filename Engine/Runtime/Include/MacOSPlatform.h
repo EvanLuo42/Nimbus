@@ -4170,6 +4170,20 @@ SWIFT_EXTERN void * _Nullable $s13MacOSPlatform7ProgramC12createWindowySvSgs5Int
 SWIFT_EXTERN bool $s13MacOSPlatform7ProgramC15shouldCloseFlagSbyFZ(SWIFT_CONTEXT const void * _Nonnull _self) SWIFT_NOEXCEPT SWIFT_CALL; // shouldCloseFlag()
 SWIFT_EXTERN void $s13MacOSPlatform7ProgramC10pollEventsyyFZ(SWIFT_CONTEXT const void * _Nonnull _self) SWIFT_NOEXCEPT SWIFT_CALL; // pollEvents()
 SWIFT_EXTERN void $s13MacOSPlatform7ProgramC8setTitleyySSFZ(struct swift_interop_passStub_MacOSPlatform_uint64_t_0_8_void_ptr_8_16 title, SWIFT_CONTEXT const void * _Nonnull _self) SWIFT_NOEXCEPT SWIFT_CALL; // setTitle(_:)
+// Stub struct to be used to pass/return values to/from Swift functions.
+struct swift_interop_returnStub_MacOSPlatform_void_ptr_0_8 {
+  void * _Nullable _1;
+};
+
+static SWIFT_C_INLINE_THUNK void swift_interop_returnDirect_MacOSPlatform_void_ptr_0_8(char * _Nonnull result, struct swift_interop_returnStub_MacOSPlatform_void_ptr_0_8 value) {
+  memcpy(result + 0, &value._1, 8);
+}
+
+SWIFT_EXTERN struct swift_interop_returnStub_MacOSPlatform_void_ptr_0_8 $s13MacOSPlatform7ProgramC16getMousePositionSaySdGyFZ(SWIFT_CONTEXT const void * _Nonnull _self) SWIFT_NOEXCEPT SWIFT_CALL; // getMousePosition()
+SWIFT_EXTERN bool $s13MacOSPlatform7ProgramC12isKeyPressedySbs6UInt16VFZ(uint16_t keyCode, SWIFT_CONTEXT const void * _Nonnull _self) SWIFT_NOEXCEPT SWIFT_CALL; // isKeyPressed(_:)
+SWIFT_EXTERN bool $s13MacOSPlatform7ProgramC13isLeftClickedSbyFZ(SWIFT_CONTEXT const void * _Nonnull _self) SWIFT_NOEXCEPT SWIFT_CALL; // isLeftClicked()
+SWIFT_EXTERN bool $s13MacOSPlatform7ProgramC14isRightClickedSbyFZ(SWIFT_CONTEXT const void * _Nonnull _self) SWIFT_NOEXCEPT SWIFT_CALL; // isRightClicked()
+SWIFT_EXTERN bool $s13MacOSPlatform7ProgramC15isMiddleClickedSbyFZ(SWIFT_CONTEXT const void * _Nonnull _self) SWIFT_NOEXCEPT SWIFT_CALL; // isMiddleClicked()
 
 #ifdef __cplusplus
 }
@@ -4208,6 +4222,11 @@ public:
   static SWIFT_INLINE_THUNK bool shouldCloseFlag() SWIFT_SYMBOL("s:13MacOSPlatform7ProgramC15shouldCloseFlagSbyFZ");
   static SWIFT_INLINE_THUNK void pollEvents() SWIFT_SYMBOL("s:13MacOSPlatform7ProgramC10pollEventsyyFZ");
   static SWIFT_INLINE_THUNK void setTitle(const swift::String& title) SWIFT_SYMBOL("s:13MacOSPlatform7ProgramC8setTitleyySSFZ");
+  static SWIFT_INLINE_THUNK swift::Array<double> getMousePosition() SWIFT_SYMBOL("s:13MacOSPlatform7ProgramC16getMousePositionSaySdGyFZ");
+  static SWIFT_INLINE_THUNK bool isKeyPressed(uint16_t keyCode) SWIFT_SYMBOL("s:13MacOSPlatform7ProgramC12isKeyPressedySbs6UInt16VFZ");
+  static SWIFT_INLINE_THUNK bool isLeftClicked() SWIFT_SYMBOL("s:13MacOSPlatform7ProgramC13isLeftClickedSbyFZ");
+  static SWIFT_INLINE_THUNK bool isRightClicked() SWIFT_SYMBOL("s:13MacOSPlatform7ProgramC14isRightClickedSbyFZ");
+  static SWIFT_INLINE_THUNK bool isMiddleClicked() SWIFT_SYMBOL("s:13MacOSPlatform7ProgramC15isMiddleClickedSbyFZ");
 protected:
   SWIFT_INLINE_THUNK Program(void * _Nonnull ptr) noexcept : RefCountedClass(ptr) {}
 private:
@@ -4262,6 +4281,23 @@ namespace MacOSPlatform SWIFT_PRIVATE_ATTR SWIFT_SYMBOL_MODULE("MacOSPlatform") 
   }
   SWIFT_INLINE_THUNK void Program::setTitle(const swift::String& title) {
   MacOSPlatform::_impl::$s13MacOSPlatform7ProgramC8setTitleyySSFZ(MacOSPlatform::_impl::swift_interop_passDirect_MacOSPlatform_uint64_t_0_8_void_ptr_8_16(swift::_impl::_impl_String::getOpaquePointer(title)), swift::TypeMetadataTrait<Program>::getTypeMetadata());
+  }
+  SWIFT_INLINE_THUNK swift::Array<double> Program::getMousePosition() {
+  return swift::_impl::_impl_Array<double>::returnNewValue([&](char * _Nonnull result) SWIFT_INLINE_THUNK_ATTRIBUTES {
+    MacOSPlatform::_impl::swift_interop_returnDirect_MacOSPlatform_void_ptr_0_8(result, MacOSPlatform::_impl::$s13MacOSPlatform7ProgramC16getMousePositionSaySdGyFZ(swift::TypeMetadataTrait<Program>::getTypeMetadata()));
+  });
+  }
+  SWIFT_INLINE_THUNK bool Program::isKeyPressed(uint16_t keyCode) {
+  return MacOSPlatform::_impl::$s13MacOSPlatform7ProgramC12isKeyPressedySbs6UInt16VFZ(keyCode, swift::TypeMetadataTrait<Program>::getTypeMetadata());
+  }
+  SWIFT_INLINE_THUNK bool Program::isLeftClicked() {
+  return MacOSPlatform::_impl::$s13MacOSPlatform7ProgramC13isLeftClickedSbyFZ(swift::TypeMetadataTrait<Program>::getTypeMetadata());
+  }
+  SWIFT_INLINE_THUNK bool Program::isRightClicked() {
+  return MacOSPlatform::_impl::$s13MacOSPlatform7ProgramC14isRightClickedSbyFZ(swift::TypeMetadataTrait<Program>::getTypeMetadata());
+  }
+  SWIFT_INLINE_THUNK bool Program::isMiddleClicked() {
+  return MacOSPlatform::_impl::$s13MacOSPlatform7ProgramC15isMiddleClickedSbyFZ(swift::TypeMetadataTrait<Program>::getTypeMetadata());
   }
 
 } // namespace MacOSPlatform
