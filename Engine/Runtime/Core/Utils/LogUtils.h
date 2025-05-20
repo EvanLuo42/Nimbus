@@ -1,14 +1,14 @@
 #pragma once
 
 #include <memory>
-#include <spdlog/spdlog.h>
+#include <print>
 #include <spdlog/sinks/stdout_color_sinks.h>
+#include <spdlog/spdlog.h>
 
 inline std::shared_ptr<spdlog::logger> GetLogger(const std::string& module) {
     auto logger = spdlog::get(module);
     if (!logger) {
         logger = spdlog::stdout_color_mt(module);
-        // logger->set_level(spdlog::level::debug);
         logger->set_pattern("[%H:%M:%S] [%^%5l%$] [%n] [%s:%#] %v");
     }
     return logger;
