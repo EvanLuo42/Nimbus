@@ -12,9 +12,13 @@ bool MacOsWindow::ShouldClose() const
     return MacOSPlatform::Program::shouldCloseFlag();
 }
 
-void *MacOsWindow::GetNativeHandle() const
+NativeWindowHandle MacOsWindow::GetNativeHandle() const
 {
-    return Window;
+    return NativeWindowHandle {
+        NativeWindowHandle::Type::Cocoa,
+        Window,
+        nullptr
+    };
 }
 
 void MacOsWindow::SetTitle(const std::string &title)

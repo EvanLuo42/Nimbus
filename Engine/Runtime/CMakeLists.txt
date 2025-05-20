@@ -66,6 +66,9 @@ add_library(NimbusRuntime SHARED Nimbus.cpp
         Physics/Physics.h
         Audio/Audio.cpp
         Audio/Audio.h
+        Platform/PlatformContext.cpp
+        RHI/VulkanContext.cpp
+        RHI/VulkanContext.h
 )
 
 target_link_libraries(NimbusRuntime PRIVATE MacOSPlatform)

@@ -141,7 +141,11 @@ public class Program {
             return nil
         }
 
-        return UnsafeMutableRawPointer(Unmanaged.passUnretained(window.contentView!).toOpaque())
+        let metalLayer = CAMetalLayer()
+        window.contentView!.wantsLayer = true
+        window.contentView!.layer = metalLayer
+
+        return UnsafeMutableRawPointer(Unmanaged.passUnretained(metalLayer).toOpaque())
     }
 
     public static func shouldCloseFlag() -> Bool {

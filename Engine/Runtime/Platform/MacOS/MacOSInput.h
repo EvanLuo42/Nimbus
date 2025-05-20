@@ -3,7 +3,7 @@
 
 #include <tuple>
 
-class MacOsInput final : IInput {
+class MacOsInput final : public IInput {
 public:
     [[nodiscard]] bool IsKeyPressed(KeyCode key) const override;
     [[nodiscard]] bool IsMouseButtonPressed(MouseButton button) const override;

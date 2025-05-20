@@ -2,14 +2,19 @@
 #include "IInput.h"
 #include "IWindow.h"
 
+#include <memory>
+
 class PlatformContext {
     int Width = 0;
     int Height = 0;
     const char *Title = "";
-public:
-    static PlatformContext* CreatePlatform(int width, int height, const char *title);
 
-    virtual IWindow* GetWindow() = 0;
-    virtual IInput* GetInput() = 0;
-    virtual ~PlatformContext() = default;
+    std::unique_ptr<IWindow> Window;
+    std::unique_ptr<IInput> Input;
+public:
+    PlatformContext(std::unique_ptr<IWindow> window, std::unique_ptr<IInput> input);
+
+    [[nodiscard]] IWindow* GetWindow() const;
+    [[nodiscard]] IInput* GetInput() const;
+    ~PlatformContext() = default;
 };
