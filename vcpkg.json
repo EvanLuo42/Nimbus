@@ -8,8 +8,5 @@
   }, {
     "name" : "vcpkg-cmake",
     "version>=" : "2024-04-23"
-  }, {
-    "name" : "glm",
-    "version>=" : "1.0.1#3"
   } ]
 }

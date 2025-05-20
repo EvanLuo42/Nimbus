@@ -1,9 +1,9 @@
 #include "Nimbus.h"
 
-#include "Event/Event.h"
-#include "Event/KeyEvent.h"
-#include "Event/MouseEvent.h"
-#include "Event/ResizeEvent.h"
+#include "Core/Event/Event.h"
+#include "Core/Event/KeyEvent.h"
+#include "Core/Event/MouseEvent.h"
+#include "Core/Event/ResizeEvent.h"
 #include "Platform/MacOS/MacOSInput.h"
 #include "Platform/MacOS/MacOSWindow.h"
 
@@ -11,7 +11,7 @@
 
 void Nimbus::CreateEngine()
 {
-    auto input = MacOsInput{};
+    const auto input = MacOsInput{};
     EventBus::Instance().Get<ResizeEvent>().Register([](const ResizeEvent& e) {
         std::println("Width: {}, Height: {}", e.Width, e.Height);
     });

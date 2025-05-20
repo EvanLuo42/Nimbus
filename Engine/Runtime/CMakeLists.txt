@@ -46,20 +46,31 @@ add_library(NimbusRuntime SHARED Nimbus.cpp
         Platform/MacOS/MacOSWindow.h
         Platform/MacOS/EventCallbacks.h
         Platform/MacOS/EventCallbacks.cpp
-        Event/Event.h
-        Event/ResizeEvent.h
-        Event/KeyEvent.h
+        Core/Event/Event.h
+        Core/Event/ResizeEvent.h
+        Core/Event/KeyEvent.h
         Platform/MacOS/MacOSInput.cpp
         Platform/MacOS/MacOSInput.h
-        Event/MouseEvent.h
+        Core/Event/MouseEvent.h
+        Renderer/Renderer.cpp
+        Renderer/Renderer.h
+        Scene/Scene.cpp
+        Scene/Scene.h
+        Scripting/Scripting.cpp
+        Scripting/Scripting.h
+        UI/UI.cpp
+        UI/UI.h
+        Resources/Resources.cpp
+        Resources/Resources.h
+        Physics/Physics.cpp
+        Physics/Physics.h
+        Audio/Audio.cpp
+        Audio/Audio.h
 )
 
 target_link_libraries(NimbusRuntime PRIVATE MacOSPlatform)
 
 target_include_directories(NimbusRuntime PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-
-find_package(glm CONFIG REQUIRED)
-target_link_libraries(NimbusRuntime PRIVATE glm::glm)
 
 find_package(Vulkan REQUIRED)
 target_link_libraries(NimbusRuntime PRIVATE Vulkan::Vulkan)
