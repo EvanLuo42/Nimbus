@@ -2,8 +2,12 @@ import Cocoa
 import EventCallbacks
 
 public class Program {
-    private static var pressedKeys = Set<UInt16>()
     private static var shouldClose = false
+    private static var shiftState = false
+    private static var commandState = false
+    private static var optionState = false
+    private static var controlState = false
+    private static var capsLockState = false
 
     public static func createWindow(_ width: Int32, _ height: Int32, _ title: String) -> UnsafeMutableRawPointer? {
         let app = NSApplication.shared
@@ -28,8 +32,60 @@ public class Program {
         }
 
         NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
-            PublishPushKeyEvent(event.keyCode)
-            return event
+            if !event.isARepeat {
+                PublishKeyDownEvent(event.keyCode)
+            }
+            return nil
+        }
+
+        NSEvent.addLocalMonitorForEvents(matching: .keyUp) { event in
+            PublishKeyUpEvent(event.keyCode)
+            return nil
+        }
+
+        NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) { event in
+            let newFlags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
+            if newFlags.contains(.shift), !shiftState {
+                shiftState = !shiftState
+                PublishKeyDownEvent(event.keyCode)
+            } else if !newFlags.contains(.shift), shiftState {
+                shiftState = !shiftState
+                PublishKeyUpEvent(event.keyCode)
+            }
+
+            if newFlags.contains(.command), !commandState {
+                commandState = !commandState
+                PublishKeyDownEvent(event.keyCode)
+            } else if !newFlags.contains(.command), commandState {
+                commandState = !commandState
+                PublishKeyUpEvent(event.keyCode)
+            }
+
+            if newFlags.contains(.option), !optionState {
+                optionState = !optionState
+                PublishKeyDownEvent(event.keyCode)
+            } else if !newFlags.contains(.option), optionState {
+                optionState = !optionState
+                PublishKeyUpEvent(event.keyCode)
+            }
+
+            if newFlags.contains(.control), !controlState {
+                controlState = !controlState
+                PublishKeyDownEvent(event.keyCode)
+            } else if !newFlags.contains(.control), controlState {
+                controlState = !controlState
+                PublishKeyUpEvent(event.keyCode)
+            }
+
+            if newFlags.contains(.capsLock), !capsLockState {
+                capsLockState = !capsLockState
+                PublishKeyDownEvent(event.keyCode)
+            } else if !newFlags.contains(.capsLock), capsLockState {
+                capsLockState = !capsLockState
+                PublishKeyUpEvent(event.keyCode)
+            }
+
+            return nil
         }
 
         return UnsafeMutableRawPointer(Unmanaged.passUnretained(window.contentView!).toOpaque())

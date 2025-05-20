@@ -1,13 +1,16 @@
 #include "Event/Event.h"
+#include "Event/KeyEvent.h"
 #include "Event/ResizeEvent.h"
 #include "Include/MacOSPlatform.h"
 
-void PublishPushKeyEvent(const uint16_t keycode)
+void PublishKeyDownEvent(const uint16_t keycode)
 {
-    if (keycode == 49)
-    {
-        MacOSPlatform::Program::setTitle("Title");
-    }
+    EventBus::Instance().Get<KeyEvent>().Dispatch({static_cast<KeyCode>(keycode), KeyState::Pressed});
+}
+
+void PublishKeyUpEvent(const uint16_t keycode)
+{
+    EventBus::Instance().Get<KeyEvent>().Dispatch({static_cast<KeyCode>(keycode), KeyState::Released});
 }
 
 void PublishResizeEvent(const double width, const double height)

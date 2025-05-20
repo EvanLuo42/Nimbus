@@ -41,7 +41,7 @@ private:
 public:
     ListenerId Register(Callback cb, int priority = 0) {
         std::lock_guard lock(ListenersLock);
-        Listeners.push_back({ NextId, std::move(cb) });
+        Listeners.push_back({ NextId, priority, std::move(cb) });
         std::sort(Listeners.rbegin(), Listeners.rend());
         return NextId++;
     }
