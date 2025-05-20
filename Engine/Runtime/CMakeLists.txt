@@ -4,6 +4,13 @@ add_library(MacOSPlatform STATIC
         Platform/MacOS/Swift/Platform.swift
 )
 
+set_target_properties(MacOSPlatform PROPERTIES Swift_MODULE_NAME "MacOSPlatform")
+target_compile_options(MacOSPlatform PUBLIC
+        "$<$<COMPILE_LANGUAGE:Swift>:-cxx-interoperability-mode=default>"
+        "$<$<COMPILE_LANGUAGE:Swift>:-Xcc;-fmodule-map-file=${CMAKE_CURRENT_SOURCE_DIR}/Include/module.modulemap>"
+        "$<$<COMPILE_LANGUAGE:Swift>:-Xcc;-I${CMAKE_CURRENT_SOURCE_DIR}/Platform/MacOS>"
+)
+
 get_target_property(SWIFT_SOURCES MacOSPlatform SOURCES)
 list(TRANSFORM SWIFT_SOURCES PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/")
 
@@ -14,11 +21,13 @@ set(SDK_FLAGS "-sdk" "${CMAKE_OSX_SYSROOT}")
 
 add_custom_command(
         OUTPUT ${CLHG_OUTPUT_PATH}
-        COMMAND ${CMAKE_Swift_COMPILER}
+        COMMAND ${CMAKE_Swift_COMPILER} -typecheck
         -emit-clang-header-path ${CLHG_OUTPUT_PATH}
         -emit-module
         -module-name ${SWIFT_MODULE_NAME}
         -cxx-interoperability-mode=default
+        -Xcc -fmodule-map-file=${CMAKE_CURRENT_SOURCE_DIR}/Include/module.modulemap
+        -Xcc -I${CMAKE_CURRENT_SOURCE_DIR}/Platform/MacOS
         ${SDK_FLAGS}
         ${SWIFT_SOURCES}
         DEPENDS ${SWIFT_SOURCES}
@@ -26,11 +35,19 @@ add_custom_command(
         VERBATIM
 )
 
+target_include_directories(MacOSPlatform PUBLIC)
+
 add_library(NimbusRuntime SHARED Nimbus.cpp
         Platform/IWindow.h
         Platform/IInput.h
         Platform/PlatformContext.h
         Include/MacOSPlatform.h
+        Platform/MacOS/MacOSWindow.cpp
+        Platform/MacOS/MacOSWindow.h
+        Platform/MacOS/EventCallbacks.h
+        Platform/MacOS/EventCallbacks.cpp
+        Event/Event.h
+        Event/ResizeEvent.h
 )
 
 target_link_libraries(NimbusRuntime PRIVATE MacOSPlatform)

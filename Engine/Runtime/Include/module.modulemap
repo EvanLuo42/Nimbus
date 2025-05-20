@@ -1,0 +1,4 @@
+module EventCallbacks {
+    header "../Platform/MacOS/EventCallbacks.h"
+    export *
+}

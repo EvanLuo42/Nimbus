@@ -1,6 +1,8 @@
 import Cocoa
+import EventCallbacks
 
 public class Program {
+    private static var pressedKeys = Set<UInt16>()
     private static var shouldClose = false
 
     public static func createWindow(_ width: Int32, _ height: Int32, _ title: String) -> UnsafeMutableRawPointer? {
@@ -9,7 +11,7 @@ public class Program {
 
         let window = NSWindow(
             contentRect: NSMakeRect(0, 0, CGFloat(width), CGFloat(height)),
-            styleMask: [.titled, .closable],
+            styleMask: [.titled, .closable, .resizable],
             backing: .buffered,
             defer: false
         )
@@ -19,6 +21,15 @@ public class Program {
 
         NotificationCenter.default.addObserver(forName: NSWindow.willCloseNotification, object: window, queue: nil) { _ in
             shouldClose = true
+        }
+
+        NotificationCenter.default.addObserver(forName: NSWindow.didEndLiveResizeNotification, object: window, queue: nil) { _ in
+            PublishResizeEvent(window.frame.size.width, window.frame.size.height)
+        }
+
+        NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+            PublishPushKeyEvent(event.keyCode)
+            return event
         }
 
         return UnsafeMutableRawPointer(Unmanaged.passUnretained(window.contentView!).toOpaque())
@@ -39,5 +50,9 @@ public class Program {
             app.sendEvent(event)
             app.updateWindows()
         }
+    }
+
+    public static func setTitle(_ title: String) {
+        NSApp.windows.first!.title = title
     }
 }
