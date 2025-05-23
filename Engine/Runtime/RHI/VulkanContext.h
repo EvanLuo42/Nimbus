@@ -10,7 +10,6 @@
 #define VK_USE_PLATFORM_WIN32_MVK
 #endif
 
-#include <spdlog/logger.h>
 #include <vulkan/vulkan_raii.hpp>
 
 class VulkanContext
@@ -22,8 +21,6 @@ class VulkanContext
     std::optional<vk::raii::PhysicalDevice> PhysicalDevice;
     std::optional<vk::raii::Device> Device;
     std::optional<vk::raii::Queue> GraphicsQueue;
-
-    std::shared_ptr<spdlog::logger> Logger;
 
     uint32_t GraphicsQueueFamily = 0;
 

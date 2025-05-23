@@ -1,15 +1,14 @@
 #include "VulkanContext.h"
 
-#include "Core/Utils/LogUtils.h"
-
 #include "Core/Utils/VectorUtils.h"
+
+#include "Core/Utils/LogUtils.h"
+#include <spdlog/spdlog.h>
 
 VULKAN_HPP_DEFAULT_DISPATCH_LOADER_DYNAMIC_STORAGE
 
 VulkanContext::VulkanContext(const NativeWindowHandle &nativeWindowHandle, const std::string &appName)
 {
-    Logger = GetLogger("Vulkan");
-
     Loader = std::make_unique<vk::detail::DynamicLoader>();
     VULKAN_HPP_DEFAULT_DISPATCHER.init(Loader->getProcAddress<PFN_vkGetInstanceProcAddr>("vkGetInstanceProcAddr"));
     Context.emplace();
@@ -20,7 +19,7 @@ VulkanContext::VulkanContext(const NativeWindowHandle &nativeWindowHandle, const
                               VK_EXT_METAL_SURFACE_EXTENSION_NAME, VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME
 #endif
     };
-    NB_DEBUG("Creating app {} Vulkan instance using extensions: {}", appName, JoinVector(extensions));
+    NB_CORE_DEBUG("Creating app {} Vulkan instance using extensions: {}", appName, JoinVector(extensions));
     vk::InstanceCreateInfo createInfo{vk::InstanceCreateFlagBits::eEnumeratePortabilityKHR,
                                       &appInfo,
                                       0,
@@ -33,7 +32,7 @@ VulkanContext::VulkanContext(const NativeWindowHandle &nativeWindowHandle, const
     }
     catch (const vk::SystemError &err)
     {
-        NB_ERROR("Instance creation failed: ", err.what());
+        NB_CORE_ERROR("Instance creation failed: ", err.what());
         exit(-1);
     }
     VULKAN_HPP_DEFAULT_DISPATCHER.init(**Instance);
@@ -47,7 +46,7 @@ VulkanContext::VulkanContext(const NativeWindowHandle &nativeWindowHandle, const
         }
         catch (const vk::SystemError &err)
         {
-            NB_ERROR("Surface creation failed: ", err.what());
+            NB_CORE_ERROR("Surface creation failed: ", err.what());
             exit(-1);
         }
         break;
