@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-#include "NimbusCore/Device.h"
 #include "Win32Window.h"
 
 class Application
@@ -16,7 +15,6 @@ private:
     void OnDestroy();
 
     std::unique_ptr<Win32Window> m_window;
-    std::unique_ptr<Nimbus::Core::Device> m_device;
 
     bool m_running = true;
 };

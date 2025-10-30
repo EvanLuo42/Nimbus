@@ -13,6 +13,7 @@ project("Nimbus")
 add_definitions(-DUNICODE -D_UNICODE)
 
 add_subdirectory("Core")
+add_subdirectory("RHI")
 add_subdirectory("RenderGraph")
 add_subdirectory("App")
 add_subdirectory("External")
