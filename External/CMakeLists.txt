@@ -21,3 +21,20 @@ if(NOT TARGET imgui)
 
   set_property(TARGET imgui PROPERTY FOLDER "External")
 endif()
+
+set(DXHEADERS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/DirectX-Headers")
+
+if(NOT TARGET dxheaders)
+  file(GLOB_RECURSE DXHEADERS_FILES
+      CONFIGURE_DEPENDS
+      "${DXHEADERS_DIR}/include/*.h"
+  )
+
+  add_library(dxheaders INTERFACE)
+
+  target_include_directories(dxheaders INTERFACE
+      "${DXHEADERS_DIR}/include"
+  )
+
+  set_property(TARGET dxheaders PROPERTY FOLDER "External")
+endif()

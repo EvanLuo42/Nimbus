@@ -6,7 +6,7 @@
 
 file(GLOB_RECURSE RG_PUBLIC_HEADERS
     CONFIGURE_DEPENDS
-    "${CMAKE_CURRENT_SOURCE_DIR}/Inc/DXRRenderGraph/*.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Inc/NimbusRenderGraph/*.h"
 )
 
 add_library(RenderGraph STATIC)
@@ -19,4 +19,4 @@ target_include_directories(RenderGraph
         ${CMAKE_CURRENT_SOURCE_DIR}/Src
 )
 
-add_library(DirectXRenderer::RenderGraph ALIAS RenderGraph)
+add_library(Nimbus::RenderGraph ALIAS RenderGraph)
