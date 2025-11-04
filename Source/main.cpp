@@ -7,7 +7,7 @@ int main(const int argc, char* argv[])
 {
     try
     {
-        const Application application{argc, argv};
+        Application application{argc, argv};
         application.run();
     }
     catch (const Nimbus::Utils::Error::ArgParseError& argErr)

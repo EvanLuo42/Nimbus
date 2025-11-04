@@ -1,5 +1,7 @@
 #pragma once
+
 #include "Platform/Window.h"
+#include "Rendering/Renderer.h"
 #include "Utils/ArgParser.h"
 
 class Application {
@@ -12,9 +14,10 @@ public:
     Application(Application&&) = delete;
     Application& operator=(Application&&) = delete;
 
-    void run() const;
+    void run();
 
 private:
     Nimbus::Utils::ArgParser args;
     Nimbus::Platform::Window window;
+    Nimbus::Rendering::Renderer renderer;
 };

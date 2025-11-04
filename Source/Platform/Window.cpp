@@ -20,6 +20,7 @@ Nimbus::Platform::Window::Window(const WindowDesc& desc)
 
     width = desc.width;
     height = desc.height;
+    title = desc.title;
 }
 
 Nimbus::Platform::Window::~Window()

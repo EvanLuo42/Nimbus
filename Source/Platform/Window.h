@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-
+#define GLFW_INCLUDE_VULKAN
 #include "GLFW/glfw3.h"
 
 namespace Nimbus::Platform
@@ -20,20 +20,19 @@ public:
     ~Window();
 
     Window(const Window&) = delete;
-    Window& operator=(const Window&) = delete;
-    Window(Window&&) = delete;
-    Window& operator=(Window&&) = delete;
 
     static void pollEvents();
     [[nodiscard]] bool shouldClose() const;
-    [[nodiscard]] void* getNativeHandle() const { return window; }
+    [[nodiscard]] GLFWwindow* getNativeHandle() const { return window; }
 
     [[nodiscard]] int getWidth() const { return width; }
     [[nodiscard]] int getHeight() const { return height; }
+    [[nodiscard]] const std::string& getTitle() const { return title; }
 
 private:
     GLFWwindow* window = nullptr;
     int width = 0;
     int height = 0;
+    std::string title;
 };
 } // namespace Nimbus::Platform
