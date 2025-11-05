@@ -4,7 +4,6 @@
 #include <GLFW/glfw3.h>
 
 #define VULKAN_HPP_NO_STRUCT_CONSTRUCTORS
-#include <iostream>
 #include <vulkan/vulkan_raii.hpp>
 
 #include "../Platform/Window.h"
@@ -15,10 +14,12 @@
 #include "../Utils/ArgParser.h"
 #include "../Utils/VulkanInstanceBuilder.h"
 
+#include <vk_mem_alloc.h>
+
 #ifndef NDEBUG
 inline bool enableValidationLayer = true;
 #else
-bool enableValidationLayer = false;
+inline bool enableValidationLayer = false;
 #endif
 
 namespace Nimbus::Rendering
@@ -33,8 +34,16 @@ public:
         createPhysicalDevice();
         createLogicalDevice();
         createSwapchain();
+        createAllocator();
+        createCommandPool();
 
         buildGraph();
+    }
+
+    ~Renderer()
+    {
+        if (allocator)
+            vmaDestroyAllocator(allocator);
     }
 
     void render();
@@ -76,6 +85,7 @@ private:
     {
         LogicalDeviceBuilder deviceBuilder{(physicalDevice), queueIndices};
         deviceBuilder.addExtension(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
+        deviceBuilder.addExtension(VK_KHR_SYNCHRONIZATION_2_EXTENSION_NAME);
         auto [device_, graphicsQueue_, presentQueue_] = deviceBuilder.build();
 
         device = vk::raii::Device{std::move(device_)};
@@ -85,15 +95,31 @@ private:
 
     void createSwapchain()
     {
-        SwapchainManager swapchainManager{
-            device, physicalDevice, surface, queueIndices, window.getNativeHandle()
-        };
+        SwapchainManager swapchainManager{device, physicalDevice, surface, queueIndices, window.getNativeHandle()};
         auto [swapchain_, imageViews, imageFormat, extent] = swapchainManager.create();
 
         swapchain = vk::raii::SwapchainKHR{std::move(swapchain_)};
         swapchainImageViews = std::move(imageViews);
         swapchainExtent = extent;
         swapchainFormat = imageFormat;
+    }
+
+    void createAllocator()
+    {
+        VmaAllocatorCreateInfo allocatorInfo = {};
+        allocatorInfo.physicalDevice = *physicalDevice;
+        allocatorInfo.device = *device;
+        allocatorInfo.instance = *instance;
+        allocator = {};
+        vmaCreateAllocator(&allocatorInfo, &allocator);
+        renderGraph = std::make_unique<RenderGraph::RenderGraph>(allocator);
+    }
+
+    void createCommandPool()
+    {
+        const vk::CommandPoolCreateInfo poolInfo{.flags = vk::CommandPoolCreateFlagBits::eResetCommandBuffer,
+                                                 .queueFamilyIndex = queueIndices.graphicsFamily.value()};
+        commandPool = vk::raii::CommandPool{device, poolInfo};
     }
 
     const Platform::Window& window;
@@ -108,10 +134,12 @@ private:
     vk::raii::Queue graphicsQueue{nullptr};
     vk::raii::Queue presentQueue{nullptr};
     vk::raii::SwapchainKHR swapchain{nullptr};
+    vk::raii::CommandPool commandPool{nullptr};
+    VmaAllocator allocator{VK_NULL_HANDLE};
     std::vector<vk::raii::ImageView> swapchainImageViews;
     vk::Extent2D swapchainExtent{};
     vk::Format swapchainFormat{};
     QueueFamilyIndices queueIndices;
-    RenderGraph::RenderGraph renderGraph;
+    std::unique_ptr<RenderGraph::RenderGraph> renderGraph;
 };
 } // namespace Nimbus::Rendering

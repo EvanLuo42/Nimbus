@@ -10,6 +10,7 @@ public:
     void setup(RenderGraph::RenderGraph& graph) override;
     void execute(vk::raii::CommandBuffer& cmd) override;
 
-    RenderGraph::ResourceHandle color = UINT_MAX;
+    RenderGraph::ResourceHandle input = UINT_MAX;
+    RenderGraph::ResourceHandle output = UINT_MAX;
 };
 }

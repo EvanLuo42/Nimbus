@@ -101,12 +101,12 @@ public:
 #endif
 
         const vk::InstanceCreateInfo createInfo{
-            .pApplicationInfo = &appInfo,
             .flags = flags,
-            .enabledExtensionCount = static_cast<uint32_t>(extensions.size()),
-            .ppEnabledExtensionNames = extensions.data(),
+            .pApplicationInfo = &appInfo,
             .enabledLayerCount = static_cast<uint32_t>(layers.size()),
             .ppEnabledLayerNames = layers.data(),
+            .enabledExtensionCount = static_cast<uint32_t>(extensions.size()),
+            .ppEnabledExtensionNames = extensions.data(),
         };
 
         info.instance = vk::raii::Instance(context, createInfo);

@@ -30,3 +30,9 @@ endif()
 #        SLANGC_EXECUTABLE "${SLANGC_EXECUTABLE}"
 #    )
 #endif()
+
+if(NOT TARGET vma)
+  add_subdirectory(vma)
+endif()
+
+add_subdirectory(glm)

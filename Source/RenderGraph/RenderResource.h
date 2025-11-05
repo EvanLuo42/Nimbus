@@ -3,6 +3,8 @@
 #define VULKAN_HPP_NO_STRUCT_CONSTRUCTORS
 #include <vulkan/vulkan_raii.hpp>
 
+#include <glm/vec4.hpp>
+
 namespace Nimbus::RenderGraph
 {
 struct ResourceDesc {
@@ -10,6 +12,8 @@ struct ResourceDesc {
     vk::Extent2D extent{};
     vk::ImageUsageFlags usage{};
     std::string name;
+
+    glm::vec4 clearColor{ 0, 0, 0, 1 };
 
     bool compatibleWith(const ResourceDesc& other) const {
         return format == other.format &&

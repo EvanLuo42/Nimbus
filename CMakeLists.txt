@@ -45,11 +45,21 @@ find_package(Vulkan REQUIRED)
 target_link_libraries(Nimbus 
 	PRIVATE 
 	glfw
+	glm
 	Vulkan::Vulkan
+	GPUOpen::VulkanMemoryAllocator
 )
 
 if (WIN32)
-	set_target_properties(Nimbus PROPERTIES
-		LINK_FLAGS "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup"
-	)
+	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+		set_target_properties(Nimbus PROPERTIES WIN32_EXECUTABLE FALSE)
+		set_target_properties(Nimbus PROPERTIES
+			LINK_FLAGS "/SUBSYSTEM:CONSOLE /ENTRY:mainCRTStartup"
+		)
+	else()
+		set_target_properties(Nimbus PROPERTIES WIN32_EXECUTABLE TRUE)
+		set_target_properties(Nimbus PROPERTIES
+			LINK_FLAGS "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup"
+		)
+	endif()
 endif()

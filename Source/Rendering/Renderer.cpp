@@ -5,17 +5,40 @@
 void Nimbus::Rendering::Renderer::render()
 {
     beginFrame();
-    renderGraph.compile();
-    renderGraph.execute();
+    device.waitIdle();
+    const vk::CommandBufferAllocateInfo allocInfo{
+        .commandPool = *commandPool, .level = vk::CommandBufferLevel::ePrimary, .commandBufferCount = 1 };
+
+    auto commandBuffers = device.allocateCommandBuffers(allocInfo);
+    vk::raii::CommandBuffer cmd{ std::move(commandBuffers[0]) };
+    const vk::CommandBufferBeginInfo beginInfo{ .flags = vk::CommandBufferUsageFlagBits::eOneTimeSubmit };
+
+    cmd.begin(beginInfo);
+
+    renderGraph->execute(cmd, swapchainExtent);
+
+    cmd.end();
+
+    vk::SubmitInfo submitInfo{
+        .commandBufferCount = 1,
+        .pCommandBuffers = &*cmd
+    };
+
+    graphicsQueue.submit(submitInfo);
+    graphicsQueue.waitIdle();
     endFrame();
 }
 
 void Nimbus::Rendering::Renderer::buildGraph()
 {
-    renderGraph.addPass<RenderPasses::SimplePass>("SimplePass");
+    renderGraph->addPass<RenderPasses::SimplePass>("SimplePass");
 
-    renderGraph.compile();
-    renderGraph.allocateResources(device, vk::Extent2D{1280, 720});
+    renderGraph->setup();
+    renderGraph->compile(device);
 }
-void Nimbus::Rendering::Renderer::beginFrame() {}
+
+void Nimbus::Rendering::Renderer::beginFrame()
+{
+    
+}
 void Nimbus::Rendering::Renderer::endFrame() {}
