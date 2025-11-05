@@ -8,13 +8,12 @@
 #include <vulkan/vulkan_raii.hpp>
 
 #include "../Platform/Window.h"
-#include "LogicalDeviceBuilder.h"
-#include "PhysicalDeviceSelector.h"
-#include "RenderGraph.h"
-#include "SwapchainManager.h"
-#include "VulkanInstanceBuilder.h"
+#include "../RenderGraph/RenderGraph.h"
+#include "../Utils/LogicalDeviceBuilder.h"
+#include "../Utils/SwapchainManager.h"
 
 #include "../Utils/ArgParser.h"
+#include "../Utils/VulkanInstanceBuilder.h"
 
 #ifndef NDEBUG
 inline bool enableValidationLayer = true;
@@ -34,6 +33,8 @@ public:
         createPhysicalDevice();
         createLogicalDevice();
         createSwapchain();
+
+        buildGraph();
     }
 
     void render();
@@ -95,16 +96,15 @@ private:
         swapchainFormat = imageFormat;
     }
 
-    RenderGraph renderGraph;
     const Platform::Window& window;
     const Utils::ArgParser& args;
 
     vk::raii::Context context;
     vk::raii::Instance instance{nullptr};
-    vk::raii::SurfaceKHR surface{nullptr};
     vk::raii::DebugUtilsMessengerEXT debugMessenger{nullptr};
     vk::raii::PhysicalDevice physicalDevice{nullptr};
     vk::raii::Device device{nullptr};
+    vk::raii::SurfaceKHR surface{nullptr};
     vk::raii::Queue graphicsQueue{nullptr};
     vk::raii::Queue presentQueue{nullptr};
     vk::raii::SwapchainKHR swapchain{nullptr};
@@ -112,5 +112,6 @@ private:
     vk::Extent2D swapchainExtent{};
     vk::Format swapchainFormat{};
     QueueFamilyIndices queueIndices;
+    RenderGraph::RenderGraph renderGraph;
 };
 } // namespace Nimbus::Rendering
