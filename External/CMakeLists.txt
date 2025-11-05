@@ -12,21 +12,21 @@ if(NOT TARGET glfw)
   set_target_properties(glfw update_mappings PROPERTIES FOLDER "External/GLFW")
 endif()
 
-if (NOT TARGET Slang)
-	add_library(Slang INTERFACE)
-	target_include_directories(Slang INTERFACE
-        "$ENV{VULKAN_SDK}/Include/slang"
-    )
-
-    if (WIN32)
-        target_link_libraries(Slang INTERFACE "$ENV{VULKAN_SDK}/Lib/slang.lib")
-    elseif(APPLE)
-        target_link_libraries(Slang INTERFACE "$ENV{VULKAN_SDK}/lib/libslang.dylib")
-    else()
-        target_link_libraries(Slang INTERFACE "$ENV{VULKAN_SDK}/lib/libslang.so")
-    endif()
-
-    set_target_properties(Slang PROPERTIES
-        SLANGC_EXECUTABLE "${SLANGC_EXECUTABLE}"
-    )
-endif()
+#if (NOT TARGET Slang)
+#	add_library(Slang INTERFACE)
+#	target_include_directories(Slang INTERFACE
+#        "${Vulkan_INCLUDE_DIR}/slang"
+#    )
+#
+#    if (WIN32)
+#        target_link_libraries(Slang INTERFACE "${Vulkan_LIBRARY}/../slang.lib")
+#    elseif(APPLE)
+#        target_link_libraries(Slang INTERFACE "${Vulkan_LIBRARY}/../libslang.dylib")
+#    else()
+#        target_link_libraries(Slang INTERFACE "${Vulkan_LIBRARY}/../libslang.so")
+#    endif()
+#
+#    set_target_properties(Slang PROPERTIES
+#        SLANGC_EXECUTABLE "${SLANGC_EXECUTABLE}"
+#    )
+#endif()

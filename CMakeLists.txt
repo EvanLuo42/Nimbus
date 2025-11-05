@@ -36,10 +36,6 @@ compile_slang(
 
 add_executable(Nimbus
 	${SOURCES}
-		Source/Rendering/Renderer.cpp
-		Source/Rendering/Renderer.h
-		Source/Rendering/RenderGraph.cpp
-		Source/Rendering/RenderGraph.h
 )
 
 add_dependencies(Nimbus compile_slang_shaders)
@@ -50,7 +46,6 @@ target_link_libraries(Nimbus
 	PRIVATE 
 	glfw
 	Vulkan::Vulkan
-	Slang
 )
 
 if (WIN32)
